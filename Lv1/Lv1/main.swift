@@ -8,13 +8,13 @@
 import Foundation
 
 let calculator = Calculator()
-let num1 = Int.random(in: 0...100)
-let num2 = Int.random(in: 0...100)
+let num1 = Double(Int.random(in: 0...100))
+let num2 = Double(Int.random(in: 0...100))
 
-let addResult = calculator.calculate(op: "+", firstNumber: num1, secondNumber: num2)
-let subtractResult = calculator.calculate(op: "-", firstNumber: num1, secondNumber: num2)
-let multiplyResult = calculator.calculate(op: "*", firstNumber: num1, secondNumber: num2)
-let divideResult = calculator.calculate(op: "/", firstNumber: num1, secondNumber: num2)
+let addResult = calculator.calculate(op: "+", firstNum: num1, secondNum: num2)
+let subtractResult = calculator.calculate(op: "-", firstNum: num1, secondNum: num2)
+let multiplyResult = calculator.calculate(op: "*", firstNum: num1, secondNum: num2)
+let divideResult = calculator.calculate(op: "/", firstNum: num1, secondNum: num2)
 
 print("[NUM1] : \(num1), [NUM2] : \(num2)")
 print("\(num1) + \(num2) = \(addResult)")
