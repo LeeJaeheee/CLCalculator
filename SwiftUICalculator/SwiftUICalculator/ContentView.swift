@@ -71,7 +71,9 @@ struct ContentView: View {
                                         totalNum += "."
                                         startEditing()
                                     } else if isEditing {
-                                        totalNum = totalNum.contains(".") ? totalNum : totalNum + "."
+                                        if totalNum.count < 9 {
+                                            totalNum = totalNum.contains(".") ? totalNum : totalNum + "."
+                                        }
                                     } else {
                                         totalNum = totalNum.contains(".") ? "0." : totalNum + "."
                                         isEditing = true
@@ -110,12 +112,10 @@ struct ContentView: View {
                                             
                                         } else if calc.op == .divide && totalNum == "0" {
                                             totalNum = "오류"
-                                            //isEditing = false
                                             isClear = true
                                         } else {
                                             totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
                                             tempNum = Double(totalNum)!
-                                            //isEditing = false
                                             calc.op = .clear
                                         }
                                     }
@@ -124,7 +124,9 @@ struct ContentView: View {
                                         totalNum = item.ButtonDisplayName
                                         startEditing()
                                     } else if isEditing {
-                                        totalNum += item.ButtonDisplayName
+                                        if totalNum.count < 9  || (totalNum.count == 9 && totalNum.contains(".")) {
+                                            totalNum += item.ButtonDisplayName
+                                        }
                                     } else {
                                         totalNum = item.ButtonDisplayName
                                         isEditing = true
