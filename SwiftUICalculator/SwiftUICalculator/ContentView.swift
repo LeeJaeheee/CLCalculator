@@ -55,6 +55,7 @@ struct ContentView: View {
                                     } else {
                                         totalNum = String(Double(totalNum)! * -1)
                                     }
+                                    checkSuffix()
                                 case .percent:
                                     if isClear {
                                         clear()
