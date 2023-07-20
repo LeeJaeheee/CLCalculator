@@ -13,47 +13,50 @@ class Calculator {
         get { return _op }
         set(newValue) { _op = newValue }
     }
+    //var oper: AbstractOperation?
+    
     init(_op: ButtonType) {
         self._op = _op
     }
     
     func calculate(firstNum: Double, secondNum: Double) -> Double {
+        //return (oper?.operate(firstNum: firstNum, secondNum: secondNum))!
         switch _op {
-        case .plus: return AddOperation().calculate(firstNum: firstNum, secondNum: secondNum)
-        case .minus: return SubtractOperation().calculate(firstNum: firstNum, secondNum: secondNum)
-        case .multiple: return MultiplyOperation().calculate(firstNum: firstNum, secondNum: secondNum)
-        case .divide: return DivideOperation().calculate(firstNum: firstNum, secondNum: secondNum)
+        case .plus: return AddOperation().operate(firstNum: firstNum, secondNum: secondNum)
+        case .minus: return SubtractOperation().operate(firstNum: firstNum, secondNum: secondNum)
+        case .multiple: return MultiplyOperation().operate(firstNum: firstNum, secondNum: secondNum)
+        case .divide: return DivideOperation().operate(firstNum: firstNum, secondNum: secondNum)
         default: return secondNum
         }
     }
 }
 
 class AbstractOperation {
-    func calculate(firstNum: Double, secondNum: Double) -> Double {
+    func operate(firstNum: Double, secondNum: Double) -> Double {
         return 0
     }
 }
 
 class AddOperation: AbstractOperation {
-    override func calculate(firstNum: Double, secondNum: Double) -> Double {
+    override func operate(firstNum: Double, secondNum: Double) -> Double {
         return firstNum + secondNum
     }
 }
 
 class SubtractOperation: AbstractOperation {
-    override func calculate(firstNum: Double, secondNum: Double) -> Double {
+    override func operate(firstNum: Double, secondNum: Double) -> Double {
         return firstNum - secondNum
     }
 }
 
 class MultiplyOperation: AbstractOperation {
-    override func calculate(firstNum: Double, secondNum: Double) -> Double {
+    override func operate(firstNum: Double, secondNum: Double) -> Double {
         return firstNum * secondNum
     }
 }
 
 class DivideOperation: AbstractOperation {
-    override func calculate(firstNum: Double, secondNum: Double) -> Double {
+    override func operate(firstNum: Double, secondNum: Double) -> Double {
         return firstNum / secondNum
     }
 }

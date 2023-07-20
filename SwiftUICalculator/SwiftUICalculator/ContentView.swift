@@ -86,6 +86,7 @@ struct ContentView: View {
                                     } else if isEditing {
                                         totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
                                         tempNum = Double(totalNum)!
+                                        checkSuffix()
                                         calc.op = item
                                         isEditing = false
                                     } else {
@@ -96,7 +97,7 @@ struct ContentView: View {
                                         clear()
                                     } else if isEditing {
                                         if calc.op == .clear {
-                                            
+                                            checkSuffix()
                                         } else if calc.op == .divide && totalNum == "0" {
                                             totalNum = "오류"
                                             isEditing = false
@@ -104,18 +105,20 @@ struct ContentView: View {
                                         } else {
                                             totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
                                             tempNum = Double(totalNum)!
+                                            checkSuffix() // fix
                                             isEditing = false
                                             calc.op = .clear // fix
                                         }
                                     } else {
                                         if calc.op == .clear {
-                                            
+                                            checkSuffix()
                                         } else if calc.op == .divide && totalNum == "0" {
                                             totalNum = "오류"
                                             isClear = true
                                         } else {
                                             totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
                                             tempNum = Double(totalNum)!
+                                            checkSuffix() //fix
                                             calc.op = .clear
                                         }
                                     }
