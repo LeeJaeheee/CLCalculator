@@ -6,16 +6,13 @@
 //
 
 class Calculator {
-    func calculate(op: String, firstNumber: Int, secondNumber: Int) -> Double {
-        let dNum1 = Double(firstNumber)
-        let dNum2 = Double(secondNumber)
-        
+    func calculate(op: String, firstNum: Int, secondNum: Int) -> Int {
         switch op {
-        case "+": return dNum1 + dNum2
-        case "-": return dNum1 - dNum2
-        case "*": return dNum1 * dNum2
-        case "/": return dNum1 / dNum2
-        case "%": return Double(firstNumber % secondNumber)
+        case "+": return firstNum + secondNum
+        case "-": return firstNum - secondNum
+        case "*": return firstNum * secondNum
+        case "/": return firstNum / secondNum
+        case "%": return firstNum % secondNum
         default: return 0
         }
     }
