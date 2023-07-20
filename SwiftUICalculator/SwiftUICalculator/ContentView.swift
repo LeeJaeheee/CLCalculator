@@ -44,124 +44,108 @@ struct ContentView: View {
                     HStack {
                         ForEach(line, id: \.self) { item in
                             Button {
-                                // fix : 숫자 9자리 이상 입력 안되게 (9자리 입력 후 +/-, %누른 경우만 예외)
-                                // fix : = 누르면 같은 연산 반복 (+, -, *, -에 한해서)
-                                // fix : 연속적으로 계산되게 구현 (ex) 3+3+3+3)
-                                // fix : Double 범위 벗어나면 "오류" 표시
-                                // fix : % 연산 후에도 clear 되지 않고 동작하도록 수정
-//                                if totalNum.count >= 9 {
-//                                    switch item {
-//                                    case .clear:
-//                                        tempNum = 0
-//                                        totalNum = "0"
-//                                        isEditing = false
-//                                        isClear = true
-//                                    case .opposite:
-//                                        totalNum = String(Double(totalNum)! * -1)
-//                                        tempNum = Double(totalNum)!
-//                                    case .percent:
-//                                        totalNum = String(Double(totalNum)! / 100)
-//                                    case .plus, .minus, .multiple, .divide:
-//                                    default: break
-//                                    }
-//                                }
-                                if isClear {
-                                    switch item {
-                                    case .clear, .opposite, .percent, .equal:
-                                        // fix: 함수로 만들기
-                                        tempNum = 0
-                                        totalNum = "0"
+                                switch item {
+                                case .clear:
+                                   clear()
+                                case .opposite:
+                                    if isClear {
+                                        clear()
+                                    } else if isEditing {
+                                        totalNum = String(Double(totalNum)! * -1)
+                                    } else {
+                                        totalNum = String(Double(totalNum)! * -1)
+                                    }
+                                case .percent:
+                                    if isClear {
+                                        clear()
+                                    } else if isEditing {
+                                        totalNum = String(Double(totalNum)! / 100)
+                                        tempNum = Double(totalNum)!
                                         isEditing = false
-                                    case .plus, .minus, .multiple, .divide:
+                                    } else {
+                                        totalNum = String(Double(totalNum)! / 100)
+                                        tempNum = Double(totalNum)!
+                                    }
+                                case .point:
+                                    if isClear {
+                                        totalNum += "."
+                                        startEditing()
+                                    } else if isEditing {
+                                        totalNum = totalNum.contains(".") ? totalNum : totalNum + "."
+                                    } else {
+                                        totalNum = totalNum.contains(".") ? "0." : totalNum + "."
+                                        isEditing = true
+                                    }
+                                case .plus, .minus, .multiple, .divide:
+                                    if isClear {
                                         calc.op = item
                                         isEditing = false
                                         isClear = false
-                                    case .point:
-                                        totalNum += "."
-                                        isEditing = true
-                                        isClear = false
-                                    default:
-                                        totalNum = item.ButtonDisplayName
-                                        isEditing = true
-                                        isClear = false
+                                    } else if isEditing {
+                                        tempNum = Double(totalNum)!
+                                        calc.op = item
+                                        isEditing = false
+                                    } else {
+                                        calc.op = item
                                     }
-                                } else {
-                                    if isEditing {
-                                        switch item {
-                                        case .clear:
+                                case .equal:
+                                    if isClear {
+                                        clear()
+                                    } else if isEditing {
+                                        if calc.op == .clear {
+                                            
+                                        } else if calc.op == .divide && totalNum == "0" {
+                                            totalNum = "오류"
+                                            isEditing = false
                                             isClear = true
-                                            tempNum = 0
-                                            totalNum = "0"
-                                        case .opposite:
-                                            totalNum = String(Double(totalNum)! * -1)
-                                        case .percent:
-                                            totalNum = String(Double(totalNum)! / 100)
-                                            isEditing = false
-                                            isClear = true // fix: 함수로 만들어서 totalNum, tempNum 0으로 초기화 시키기
-                                        case .plus, .minus, .multiple, .divide:
+                                        } else {
+                                            totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
                                             tempNum = Double(totalNum)!
-                                            calc.op = item
                                             isEditing = false
-                                        case .point:
-                                            totalNum = totalNum.contains(".") ? totalNum : totalNum + "."
-                                        case .equal:
-                                            if calc.op == .clear {
-                                                
-                                            } else if calc.op == .divide && totalNum == "0" {
-                                                totalNum = "오류"
-                                                isEditing = false
-                                                isClear = true
-                                            } else {
-                                                totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
-                                                tempNum = Double(totalNum)!
-                                                isEditing = false
-                                                calc.op = .clear
-                                            }
-                                        default:
-                                            totalNum += item.ButtonDisplayName
+                                            calc.op = .clear // fix
                                         }
                                     } else {
-                                        switch item {
-                                        case .clear:
-                                            tempNum = 0
-                                            totalNum = "0" // fix
-                                            isEditing = false // fix
-                                            isClear = true
-                                        case .opposite:
-                                            totalNum = String(Double(totalNum)! * -1)
-                                            tempNum = Double(totalNum)!
-                                        case .percent:
-                                            totalNum = String(Double(totalNum)! / 100)
-                                        case .equal:
-                                            if calc.op == .clear {
-                                                
-                                            } else if calc.op == .divide && totalNum == "0" {
-                                                totalNum = "오류"
-                                                //isEditing = false
-                                                isClear = true
-                                            } else {
-                                                totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
-                                                tempNum = Double(totalNum)!
-                                                //isEditing = false
-                                                calc.op = .clear
-                                            }
-                                        case .plus, .minus, .multiple, .divide:
-                                            calc.op = item
+                                        if calc.op == .clear {
+                                            
+                                        } else if calc.op == .divide && totalNum == "0" {
+                                            totalNum = "오류"
                                             //isEditing = false
-                                            isClear = false
-                                        case .point:
-                                            totalNum += "."
-                                            isEditing = true
-                                            isClear = false
-                                        default:
-                                            totalNum = item.ButtonDisplayName
-                                            isEditing = true
-                                            isClear = false
+                                            isClear = true
+                                        } else {
+                                            totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
+                                            tempNum = Double(totalNum)!
+                                            //isEditing = false
+                                            calc.op = .clear
                                         }
                                     }
+                                default:
+                                    if isClear {
+                                        totalNum = item.ButtonDisplayName
+                                        startEditing()
+                                    } else if isEditing {
+                                        totalNum += item.ButtonDisplayName
+                                    } else {
+                                        totalNum = item.ButtonDisplayName
+                                        isEditing = true
+                                    }
                                 }
-                                if totalNum.hasSuffix(".0") {
-                                    totalNum.removeLast(2)
+                                
+                                func clear() {
+                                    tempNum = 0
+                                    totalNum = "0"
+                                    isClear = true
+                                    isEditing = false
+                                }
+                                
+                                func startEditing() {
+                                    isEditing = true
+                                    isClear = false
+                                }
+                                
+                                func checkSuffix() {
+                                    if totalNum.hasSuffix(".0") {
+                                        totalNum.removeLast(2)
+                                    }
                                 }
                             } label: {
                                 Text(item.ButtonDisplayName)
@@ -172,7 +156,6 @@ struct ContentView: View {
                                     .foregroundColor(item.foregroundColor)
                                     .font(.system(size:33))
                             }
-                            
                         }
                     }
                 }
