@@ -82,6 +82,7 @@ struct ContentView: View {
                                         isEditing = false
                                         isClear = false
                                     } else if isEditing {
+                                        totalNum = String(calc.calculate(firstNum: tempNum, secondNum: Double(totalNum)!))
                                         tempNum = Double(totalNum)!
                                         calc.op = item
                                         isEditing = false
