@@ -5,16 +5,14 @@
 //  Created by 이재희 on 2023/07/20.
 //
 
-let calculator = Calculator(
-    // 프로퍼티 초기화
-)
+let calculator = Calculator()
 let num1 = Double(Int.random(in: 0...100))
 let num2 = Double(Int.random(in: 0...100))
 
-let addResult = calculator.calculate(op: "+", firstNum: <#T##Double#>, secondNum: <#T##Double#>)
-let subtractResult = calculator.calculate(op: "-", firstNum: <#T##Double#>, secondNum: <#T##Double#>)
-let multiplyResult = calculator.calculate(op: "*", firstNum: <#T##Double#>, secondNum: <#T##Double#>)
-let divideResult = calculator.calculate(op: "/", firstNum: <#T##Double#>, secondNum: <#T##Double#>)
+let addResult = calculator.calculate(op: "+", firstNum: num1, secondNum: num2)
+let subtractResult = calculator.calculate(op: "-", firstNum: num1, secondNum: num2)
+let multiplyResult = calculator.calculate(op: "*", firstNum: num1, secondNum: num2)
+let divideResult = calculator.calculate(op: "/", firstNum: num1, secondNum: num2)
 
 print("[NUM1] : \(num1), [NUM2] : \(num2)")
 print("\(num1) + \(num2) = \(addResult)")
