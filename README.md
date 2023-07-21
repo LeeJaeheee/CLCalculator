@@ -57,7 +57,8 @@
   - 사칙연산에 한해서 연산 후 "=" 계속 누르면 이전 연산 반복하는 기능
 
 - #### 실행화면
-  ![Simulator Screen Recording - iPhone 14 Pro - 2023-07-21 at 10 19 35](https://github.com/LeeJaeheee/CLCalculator/assets/74818845/14433fb9-482f-46b3-8dcd-75d68143f6aa)
+![Simulator Screen Recording - iPhone 14 Pro - 2023-07-21 at 10 19 35](https://github.com/LeeJaeheee/CLCalculator/assets/74818845/edef1672-bae7-408a-9470-d2a60f8d5978)
+
 
 
 <br><br>
