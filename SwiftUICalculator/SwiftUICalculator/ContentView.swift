@@ -54,6 +54,7 @@ struct ContentView: View {
                                         totalNum = String(Double(totalNum)! * -1)
                                     } else {
                                         totalNum = String(Double(totalNum)! * -1)
+                                        tempNum = Double(totalNum)!
                                     }
                                     checkSuffix()
                                 case .percent:
